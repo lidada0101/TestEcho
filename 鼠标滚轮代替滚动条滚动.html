@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,html{
+            position: relative;
+            margin:0;
+            padding:0;
+            width:100%;
+            height: 100%;
+        }
+        #box{
+            height: 50px;
+            width:300px;
+            position: absolute;
+            left:50%;
+            top:50%;
+            transform: translate(-50%);
+            background: #CDCDCD;
+            overflow: hidden;
+        }
+        #small-box{
+          white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+  <div id="box">
+    <div id="small-box">内容溢出1内容溢出2内容溢出3内容溢出4内容溢出5内容溢出6内容溢出7内容溢出8内容溢出9内容溢出10内容溢出11</div>
+  </div>
+  <script>
+    let box = document.querySelector("#box")
+    // 由于不同的浏览器所兼容的函数不同，所以需要首先判断浏览器类型，再按照不同浏览器写不同的函数
+    let explorer =navigator.userAgent;
+    let isIE = navigator.userAgent.match(/MSIE (\d)/i);
+    isIE = isIE ? isIE[1] : undefined;
+    if (isIE < 9) {
+      //传统浏览器使用MouseWheel事件
+      container.attachEvent("onmousewheel", function (e) {
+          //计算鼠标滚轮滚动的距离
+          //一格3行，每行40像素
+          let v = e.wheelDelta / 2;
+          container.scrollLeft += v;
+          //阻止浏览器默认方法
+          return false;
+      })
+    }
+    if(explorer.indexOf("Firefox") >= 0){
+      box.addEventListener("DOMMouseScroll",function(){
+        //计算鼠标滚轮滚动的距离
+        box.scrollLeft += event.detail * 40;
+        //阻止浏览器默认方法
+        event.preventDefault();
+      }, false)
+    }else{
+      box.addEventListener("mousewheel",function(){
+        //计算鼠标滚轮滚动的距离
+        let v = -event.wheelDelta / 2;
+        box.scrollLeft += v;
+        //阻止浏览器默认方法
+        event.preventDefault();
+      }, false)
+    }
+  </script>
+</body>
+</html>
